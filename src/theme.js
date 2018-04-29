@@ -1,0 +1,10 @@
+export let white = "#f7fff7";
+export let black = "#000000";
+export let whiteBlue = "#add9f4";
+export let darkBlue = "#476c9b";
+export let red = "#984447";
+export let green = "#94ae89";
+export let purple = "#6e2594";
+export let aerosmithPink = "#f7567c";
+export let yellow = "#fff275";
+export let brown = "#5b3000";

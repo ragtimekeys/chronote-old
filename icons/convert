@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+convert -density 40 -background none $1.svg $1.png
+convert -density 80 -background none $1.svg $1@2x.png
+convert -density 160 -background none $1.svg $1@3x.png
