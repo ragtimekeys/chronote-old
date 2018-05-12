@@ -5,7 +5,7 @@ import TimeRangeSelect from "../components/timeRangeSelect";
 export default class Home extends Component {
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ display: "flex", flexGrow: 1 }}>
         <Text>Home</Text>
         <TimeRangeSelect />
       </SafeAreaView>
