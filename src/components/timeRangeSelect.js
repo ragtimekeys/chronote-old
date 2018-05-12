@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from "react";
+import * as d3 from "d3-shape";
 import { Text, View } from "react-native";
 import { Svg } from "expo";
 import _ from "lodash";
@@ -67,6 +68,15 @@ export default class TimeRangeSelect extends Component {
       />
     ));
 
+    const points = [{ x: 30, y: 20 }, { x: 50, y: 40 }, { x: 20, y: 39 }];
+
+    const line = d3
+      .line()
+      .x(d => d.x)
+      .y(d => d.y)(points);
+
+    console.log("line:", line);
+
     return (
       <Svg viewBox="0 0 103 103" style={{ flexGrow: 1 }}>
         <Svg.Circle
@@ -77,6 +87,9 @@ export default class TimeRangeSelect extends Component {
           strokeWidth={3}
           fill="none"
         />
+
+        <Svg.Path d={line} stroke="black" />
+
         {nums}
         {ticks}
       </Svg>

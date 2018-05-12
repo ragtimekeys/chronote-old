@@ -20,6 +20,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "d3-shape": "^1.2.0",
     "expo": "^26.0.0",
     "lodash": "^4.17.10",
     "react": "16.3.0",
