@@ -12,7 +12,6 @@ const Item = styled.View`
   padding: 16px;
   padding-right: 8px;
   border-bottom-width: 0.5px;
-  border-bottom-color: rgb(193, 191, 194);
 `;
 
 const ItemTitle = styled.Text`

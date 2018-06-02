@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, SafeAreaView } from "react-native";
-import TimeRangeSelect from "../components/timeRangeSelect";
+import TimeRangeSelect from "../components/timeRange/index.js";
 
 export default class Home extends Component {
   render() {
