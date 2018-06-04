@@ -1,8 +1,8 @@
-import React, { Component, PureComponent } from "react";
-import * as d3 from "d3-shape";
-import { Text, View } from "react-native";
 import { Svg } from "expo";
 import _ from "lodash";
+import React, { Component } from "react";
+import Edit from "./edit";
+import Polar from "./polar";
 
 /*
   //Retrieving props from within the theme requires an arrow function
@@ -11,34 +11,32 @@ import _ from "lodash";
 */
 
 export default class TimeRangeSelect extends Component {
-  state = {};
+  polar = new Polar();
 
-  radius = 45;
-  innerRadius = 31;
+  radius = 44;
+  innerRadius = 29;
 
-  centerOffset = 50;
-  offsetAngle = Math.PI / 2;
-
-  bigTickLength = 9;
-  smallTickLength = 7;
+  bigTickLength = 10;
+  smallTickLength = 8;
 
   numFontSize = 7;
 
   hourIncAngle = Math.PI / 6;
   tickIncAngle = Math.PI / 30;
 
-  outerStrokeWidth = 10;
-
-  calculateXRadially = (angle, radius) =>
-    -Math.cos(angle + this.offsetAngle) * radius + this.centerOffset;
-  calculateYRadially = (angle, radius) =>
-    -Math.sin(angle + this.offsetAngle) * radius + this.centerOffset;
+  outerStrokeWidth = this.props.isEditable ? 12 : 2;
 
   render() {
     const nums = _.range(12).map(i => (
       <Svg.Text
-        x={this.calculateXRadially(i * this.hourIncAngle, this.innerRadius)}
-        y={this.calculateYRadially(i * this.hourIncAngle, this.innerRadius)}
+        x={this.polar.calculateXRadially(
+          i * this.hourIncAngle,
+          this.innerRadius
+        )}
+        y={this.polar.calculateYRadially(
+          i * this.hourIncAngle,
+          this.innerRadius
+        )}
         fontSize={this.numFontSize}
         textAnchor="middle"
         alignmentBaseline="central"
@@ -48,18 +46,16 @@ export default class TimeRangeSelect extends Component {
       </Svg.Text>
     ));
 
-    /* ticks */
-
     const ticks = _.range(60).map(i => (
       <Svg.Line
-        x1={this.calculateXRadially(i * this.tickIncAngle, this.radius)}
-        y1={this.calculateYRadially(i * this.tickIncAngle, this.radius)}
-        x2={this.calculateXRadially(
+        x1={this.polar.calculateXRadially(i * this.tickIncAngle, this.radius)}
+        y1={this.polar.calculateYRadially(i * this.tickIncAngle, this.radius)}
+        x2={this.polar.calculateXRadially(
           i * this.tickIncAngle,
           this.radius -
             (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
         )}
-        y2={this.calculateYRadially(
+        y2={this.polar.calculateYRadially(
           i * this.tickIncAngle,
           this.radius -
             (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
@@ -70,37 +66,32 @@ export default class TimeRangeSelect extends Component {
       />
     ));
 
-    const archLinux = d3
-      .arc()
-      .innerRadius(0)
-      .outerRadius(this.radius - this.outerStrokeWidth / 2)
-      .startAngle(0.5 * Math.PI)
-      .endAngle(0.75 * Math.PI)();
-
     return (
       <Svg
         viewBox="0 0 100 100"
         style={{ flexGrow: 1, marginLeft: 25, marginRight: 25 }}
       >
         {ticks}
-
-        <Svg.Circle
-          cx={this.centerOffset}
-          cy={this.centerOffset}
-          r={this.radius}
-          stroke="black"
-          strokeWidth={this.outerStrokeWidth}
-          fill="none"
-        />
-
         {nums}
-
-        <Svg.Path
-          d={archLinux}
-          transform="translate(50, 50)"
-          fill="yellow"
-          fillOpacity="0.2"
-        />
+        {this.props.isEditable ? (
+          <Edit
+            // startTime={this.startTime}
+            // endTime={this.endTime}
+            // onChange={(startTime, endTime) => {}}
+            outerStrokeWidth={this.outerStrokeWidth}
+            radius={this.radius}
+            polar={this.polar}
+          />
+        ) : (
+          <Svg.Circle
+            cx={this.props.centerOffset}
+            cy={this.props.centerOffset}
+            r={this.radius}
+            stroke="black"
+            strokeWidth={this.outerStrokeWidth}
+            fill="none"
+          />
+        )}
       </Svg>
     );
   }

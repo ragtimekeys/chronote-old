@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, SafeAreaView } from "react-native";
+import { SafeAreaView, Text } from "react-native";
 import TimeRangeSelect from "../components/timeRange/index.js";
 
 export default class Home extends Component {
@@ -7,7 +7,7 @@ export default class Home extends Component {
     return (
       <SafeAreaView style={{ display: "flex", flexGrow: 1 }}>
         <Text>Home</Text>
-        <TimeRangeSelect />
+        <TimeRangeSelect isEditable={true} />
       </SafeAreaView>
     );
   }
