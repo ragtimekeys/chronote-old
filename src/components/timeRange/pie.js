@@ -1,28 +1,29 @@
 import * as d3 from "d3-shape";
 import { Svg } from "expo";
 import React, { Component, Fragment } from "react";
+import { minutesToAngle } from "./angleTimeConversion";
 
 export default class Pie extends Component {
-  selectionStartAngle = 0.5 * Math.PI;
-  selectionEndAngle = 0.75 * Math.PI;
-
   render() {
-    const selectionPie = d3
+    const startAngle = minutesToAngle(this.props.startTime);
+    const endAngle = minutesToAngle(this.props.endTime);
+
+    const pie = d3
       .arc()
       .innerRadius(0)
       .outerRadius(this.props.radius - this.props.outerStrokeWidth / 2)
-      .startAngle(this.selectionStartAngle)
-      .endAngle(this.selectionEndAngle)();
+      .startAngle(startAngle)
+      .endAngle(endAngle)();
 
     return (
       <Svg.Path
-        d={selectionPie}
+        d={pie}
         transform={`translate(
           ${this.props.polar.centerOffset},
           ${this.props.polar.centerOffset}
         )`}
-        fill="yellow"
-        fillOpacity="0.2"
+        fill={this.props.color}
+        fillOpacity={this.props.fillOpacity}
       />
     );
   }

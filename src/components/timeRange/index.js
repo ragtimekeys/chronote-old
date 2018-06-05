@@ -1,7 +1,8 @@
 import { Svg } from "expo";
 import _ from "lodash";
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Edit from "./edit";
+import Pie from "./pie";
 import Polar from "./polar";
 
 /*
@@ -16,8 +17,8 @@ export default class TimeRangeSelect extends Component {
   radius = 44;
   innerRadius = 29;
 
-  bigTickLength = 10;
-  smallTickLength = 8;
+  bigTickLength = 4;
+  smallTickLength = 2;
 
   numFontSize = 7;
 
@@ -46,19 +47,18 @@ export default class TimeRangeSelect extends Component {
       </Svg.Text>
     ));
 
+    const tickRadius = this.radius - this.outerStrokeWidth / 2;
     const ticks = _.range(60).map(i => (
       <Svg.Line
-        x1={this.polar.calculateXRadially(i * this.tickIncAngle, this.radius)}
-        y1={this.polar.calculateYRadially(i * this.tickIncAngle, this.radius)}
+        x1={this.polar.calculateXRadially(i * this.tickIncAngle, tickRadius)}
+        y1={this.polar.calculateYRadially(i * this.tickIncAngle, tickRadius)}
         x2={this.polar.calculateXRadially(
           i * this.tickIncAngle,
-          this.radius -
-            (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
+          tickRadius - (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
         )}
         y2={this.polar.calculateYRadially(
           i * this.tickIncAngle,
-          this.radius -
-            (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
+          tickRadius - (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
         )}
         stroke="black"
         strokeWidth={0.75}
@@ -66,18 +66,32 @@ export default class TimeRangeSelect extends Component {
       />
     ));
 
+    const currentTimeRanges = [
+      <Pie
+        key={0}
+        polar={this.polar}
+        radius={this.radius}
+        outerStrokeWidth={this.outerStrokeWidth}
+        startTime={60 * 7}
+        endTime={60 * 13}
+        color={"blue"}
+        fillOpacity={0.2}
+      />
+    ];
+
     return (
       <Svg
         viewBox="0 0 100 100"
         style={{ flexGrow: 1, marginLeft: 25, marginRight: 25 }}
       >
-        {ticks}
-        {nums}
+        {currentTimeRanges}
         {this.props.isEditable ? (
           <Edit
-            // startTime={this.startTime}
-            // endTime={this.endTime}
-            // onChange={(startTime, endTime) => {}}
+            startTime={this.props.startTime}
+            endTime={this.props.endTime}
+            onChange={(startTime, endTime) =>
+              this.props.onChange(startTime, endTime)
+            }
             outerStrokeWidth={this.outerStrokeWidth}
             radius={this.radius}
             polar={this.polar}
@@ -92,6 +106,8 @@ export default class TimeRangeSelect extends Component {
             fill="none"
           />
         )}
+        {ticks}
+        {nums}
       </Svg>
     );
   }
