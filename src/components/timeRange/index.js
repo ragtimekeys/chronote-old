@@ -48,23 +48,27 @@ export default class TimeRangeSelect extends Component {
     ));
 
     const tickRadius = this.radius - this.outerStrokeWidth / 2;
-    const ticks = _.range(60).map(i => (
-      <Svg.Line
-        x1={this.polar.calculateXRadially(i * this.tickIncAngle, tickRadius)}
-        y1={this.polar.calculateYRadially(i * this.tickIncAngle, tickRadius)}
-        x2={this.polar.calculateXRadially(
-          i * this.tickIncAngle,
-          tickRadius - (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
-        )}
-        y2={this.polar.calculateYRadially(
-          i * this.tickIncAngle,
-          tickRadius - (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
-        )}
-        stroke="black"
-        strokeWidth={0.75}
-        key={i}
-      />
-    ));
+    const ticks = _
+      .range(60)
+      .map(i => (
+        <Svg.Line
+          x1={this.polar.calculateXRadially(i * this.tickIncAngle, tickRadius)}
+          y1={this.polar.calculateYRadially(i * this.tickIncAngle, tickRadius)}
+          x2={this.polar.calculateXRadially(
+            i * this.tickIncAngle,
+            tickRadius -
+              (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
+          )}
+          y2={this.polar.calculateYRadially(
+            i * this.tickIncAngle,
+            tickRadius -
+              (i % 5 === 0 ? this.bigTickLength : this.smallTickLength)
+          )}
+          stroke="black"
+          strokeWidth={0.75}
+          key={i}
+        />
+      ));
 
     const currentTimeRanges = [
       <Pie
@@ -82,7 +86,7 @@ export default class TimeRangeSelect extends Component {
     return (
       <Svg
         viewBox="0 0 100 100"
-        style={{ flexGrow: 1, marginLeft: 25, marginRight: 25 }}
+        style={{ height: 600, marginLeft: 25, marginRight: 25 }}
       >
         {currentTimeRanges}
         {this.props.isEditable ? (

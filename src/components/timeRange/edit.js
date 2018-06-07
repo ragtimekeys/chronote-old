@@ -71,8 +71,36 @@ export default class Edit extends Component {
           fill="yellow"
           stroke="black"
           strokeWidth={this.selectionStrokeWidth}
-          onPressIn={() => {
-            this.props.onChange(this.props.startTime - 60, this.props.endTime);
+          // onPressIn={() => {
+          //   this.props.onChange(this.props.startTime + 60, this.props.endTime);
+          // }}
+          onStartShouldSetResponder={evt => {
+            console.log("onStartShouldSetResponder");
+            console.log(evt);
+            return true;
+          }}
+          onMoveShouldSetResponder={evt => {
+            console.log("onMoveShouldSetResponder", evt);
+            return true;
+          }}
+          onResponderGrant={evt => {
+            console.log("onResponderGrant", evt);
+          }}
+          onResponderReject={evt => {
+            console.log("onResponderReject", evt);
+          }}
+          onResponderMove={evt => {
+            console.log("onResponderMove", evt);
+          }}
+          onResponderRelease={evt => {
+            console.log("onResponderRelease", evt);
+          }}
+          onResponderTerminateRequest={evt => {
+            console.log("onResponderTerminateRequest", evt);
+            return true;
+          }}
+          onResponderTerminate={evt => {
+            console.log("onResponderTerminate", evt);
           }}
         />
         <Svg.Circle
